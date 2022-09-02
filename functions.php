@@ -10,3 +10,7 @@
 
         return $str;
     }
+
+
+    // function checkCredentials($email, $password)
+    // {}
