@@ -33,3 +33,31 @@ if(isset($_POST['submit']))
 
 <?php include_once "../views/partials/header.php"?>
 
+
+
+
+<div class="container bg-light py-3 mt-3 login-input">
+
+    <?php
+        if (!empty($errorMessage)){?>
+            <div class="error">
+                <strong><?php echo $errorMessage;?></strong>
+            </div>
+        <?php } ?>
+        
+
+    <form method="post">
+        <div class="form-group my-3 mx-5">
+            <input type="text" class="form-control" placeholder="Email Address" name="email">
+        </div>
+        <div class="form-group my-3 mx-5">
+            <input type="text" class="form-control" placeholder="Password" name="password">
+        </div>
+
+    
+        <div class="form-group mb-3 mt-3 text-end ">
+            <button class="btn btn-primary" type="submit" name="submit" id="button-addon2">Log In</button>
+        </div>
+    </form>
+
+</div>
