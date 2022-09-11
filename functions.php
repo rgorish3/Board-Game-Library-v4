@@ -1,5 +1,5 @@
 <?php
-
+    
     
     function randomString($n)
     {
@@ -16,9 +16,10 @@
 
     function checkCredentials($email, $password)
     {
-        require_once("database.php");
 
-        $statement = $pdo->prepare("SELECT id, fullName, accountStatus, accountPassword FROM boardGames WHERE email = :");
+        require(__DIR__."/database.php");
+
+        $statement = $pdo->prepare("SELECT id, fullName, accountStatus, accountPassword FROM users WHERE email = :email");
         $statement -> bindValue(':email', $email);
         $statement -> execute();
 

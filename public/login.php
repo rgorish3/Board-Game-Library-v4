@@ -15,7 +15,7 @@ $errorMessage = '';
 
 if(isset($_POST['submit']))
 {
-    $response = checkCredentials($_POST('email'), $_POST('password'));
+    $response = checkCredentials($_POST['email'], $_POST['password']);
     
     if($response['status'] == 'success')
     {
