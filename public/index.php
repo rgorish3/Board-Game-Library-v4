@@ -1,6 +1,6 @@
 <?php
 
-
+session_start();
 require_once('../search.php');
 
 ?>
@@ -8,8 +8,8 @@ require_once('../search.php');
 
 <?php include_once("../views/partials/header.php");?>
 
-
 <body>
+    <?php include_once("../views/partials/login_bar.php");?>
     <div class="main">
         <h1>Board Game Library</h1> 
 

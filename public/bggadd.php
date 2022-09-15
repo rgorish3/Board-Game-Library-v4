@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $name = $_GET["name"] ?? null;
 
 $nameReplace = htmlspecialchars($name);
