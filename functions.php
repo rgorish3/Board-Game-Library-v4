@@ -31,7 +31,7 @@
             {
                 if($result['accountStatus'] == 1)
                 {
-                    return array('status' => 'success', 'id' => $result['id'], 'fullname' => $result['fullname']);
+                    return array('status' => 'success', 'id' => $result['id'], 'fullName' => $result['fullName']);
                 }
 
                 return array('status' => 'error', 'message'=> 'This account is inactive.');

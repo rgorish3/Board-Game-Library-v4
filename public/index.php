@@ -3,6 +3,8 @@
 session_start();
 require_once('../search.php');
 
+
+
 ?>
 
 
@@ -10,6 +12,7 @@ require_once('../search.php');
 
 <body>
     <?php include_once("../views/partials/login_bar.php");?>
+
     <div class="main">
         <h1>Board Game Library</h1> 
 
@@ -73,7 +76,7 @@ require_once('../search.php');
                         <td>
                             
                             <a href="view.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-info mb-2">View</a>
-                            <a href="update.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-primary mb-2">Edit</a>
+                            <a href="update.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-warning mb-2">Edit</a>
                         
                             <!--Deletions should done through Post, not Get, so  using a 
                                 form instead of an anchor tag to pass hidden information

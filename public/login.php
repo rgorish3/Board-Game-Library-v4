@@ -19,8 +19,9 @@ if(isset($_POST['submit']))
     
     if($response['status'] == 'success')
     {
-        $_SESSION = array('id' => $response['id'],'user' => $response[$fullName]);
+        $_SESSION = array('id' => $response['id'],'user' => $response['fullName']);
         header('Location: index.php');
+        //$errorMessage = $responsep['id']
     }
 
     $errorMessage = $response['status'] == 'error' ? $response['message'] : '';
