@@ -41,8 +41,8 @@ if(isset($_POST['submit']))
 
     <?php
         if (!empty($errorMessage)){?>
-            <div class="error">
-                <strong><?php echo $errorMessage;?></strong>
+            <div>
+                <span class="text-danger"><strong><?php echo $errorMessage;?></strong></span>
             </div>
         <?php } ?>
         
@@ -52,7 +52,7 @@ if(isset($_POST['submit']))
             <input type="text" class="form-control" placeholder="Email Address" name="email">
         </div>
         <div class="form-group my-3 mx-5">
-            <input type="text" class="form-control" placeholder="Password" name="password">
+            <input type="password" class="form-control" placeholder="Password" name="password">
         </div>
 
     
@@ -60,5 +60,6 @@ if(isset($_POST['submit']))
             <button class="btn btn-primary" type="submit" name="submit" id="button-addon2">Log In</button>
         </div>
     </form>
+
 
 </div>
