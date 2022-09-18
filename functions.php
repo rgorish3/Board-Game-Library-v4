@@ -19,7 +19,7 @@
 
         require(__DIR__."/database.php");
 
-        $statement = $pdo->prepare("SELECT id, fullName, accountStatus, accountPassword FROM users WHERE email = :email");
+        $statement = $pdo->prepare("SELECT id, fullName, accountStatus, accountPassword, accountType FROM users WHERE email = :email");
         $statement -> bindValue(':email', $email);
         $statement -> execute();
 
@@ -31,7 +31,7 @@
             {
                 if($result['accountStatus'] == 1)
                 {
-                    return array('status' => 'success', 'id' => $result['id'], 'fullName' => $result['fullName']);
+                    return array('status' => 'success', 'id' => $result['id'], 'fullName' => $result['fullName'], 'type'=>$result['accountType']);
                 }
 
                 return array('status' => 'error', 'message'=> 'This account is inactive.');
