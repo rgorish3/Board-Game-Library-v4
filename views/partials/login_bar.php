@@ -8,7 +8,7 @@
 
             <?php if(isset($_SESSION['user'])){ ?>
 
-                <h4 class="text-end">Hello <?php echo $_SESSION['user'];?>!</h4>
+                <span class="pe-3"><strong>Hello <?php echo $_SESSION['user'];?>!</strong></span>
                 <a href="account.php" class='btn btn-primary'>Account Settings</a>
                 <a href="logout.php" class='btn btn-primary'>Log Out</a>
             <?php }
