@@ -19,9 +19,13 @@ require_once('../search.php');
 
         <!--ADD BUTTON. LINKS TO ADD GAME PAGE-->
 
-        <p>
-            <a href="create.php" class="btn btn-success">Add Game</a>
-        </p>
+        <?php
+        if(isset($_SESSION['user']))
+        { ?>
+            <p>
+                <a href="create.php" class="btn btn-success">Add Game</a>
+            </p>
+        <?php } ?>
 
 
         <!--RESET BUTTON-->
