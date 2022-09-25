@@ -5,7 +5,7 @@
                 <!--LEFT SIDE-->
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div >
                             
                             <div class="mb-3">
@@ -99,13 +99,13 @@
                     <!--RIGHT SIDE-->
                     
                    
-                    <div class="col-md-5">
+                    <div class="col-md-3">
 
                         <h3>Libraries</h3>
                         
                         <?php foreach($libraries as $i => $library) : ?>
                                
-                            <?php if(in_array($library['Library'], $libraryPassed, $strict=false) || empty($_GET)){ ?>  <!-- Checking to see whether the library is was passed in GET. If it
+                            <?php if(in_array($library['library'], $libraryPassed, $strict=false) || empty($_GET)){ ?>  <!-- Checking to see whether the library is was passed in GET. If it
                                                                                                                             was, displays checkbox as checked. 
                                                                                                                             
                                                                                                                             Will also check to see if $_GET is empty and will use checked version 
@@ -114,17 +114,17 @@
                                                                                                                             However, I am a little concerned this may be dirty. Testing is required.
                                                                                                                         -->
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="library[]" value="<?php echo $library['Library']?>"  id="<?php echo $library['Library']?>" checked>
-                                    <label class="form-check-label" for="<?php echo $library['Library']?>">
-                                        <?php echo $library['Library']; ?>
+                                    <input class="form-check-input" type="checkbox" name="library[]" value="<?php echo $library['library']?>"  id="<?php echo $library['library']?>" checked>
+                                    <label class="form-check-label" for="<?php echo $library['library']?>">
+                                        <?php echo $library['library']; ?>
                                     </label>
                                 </div>
                             <?php }
                             else{ ?>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="library[]" value="<?php echo $library['Library']?>"  id="<?php echo $library['Library']?>">
-                                    <label class="form-check-label" for="<?php echo $library['Library']?>">
-                                        <?php echo $library['Library']; ?>
+                                    <input class="form-check-input" type="checkbox" name="library[]" value="<?php echo $library['library']?>"  id="<?php echo $library['library']?>">
+                                    <label class="form-check-label" for="<?php echo $library['library']?>">
+                                        <?php echo $library['library']; ?>
                                     </label>
                                 </div>
                         
@@ -133,6 +133,48 @@
                         <?php endforeach;?>
 
                     </div>
+
+                    <div class="col-md-3">
+
+                        <h3>Owners</h3>
+                        
+                        <?php foreach($owners as $i => $owner) : ?>
+                               
+                            <?php if(in_array($owner['fullName'], $ownerPassed, $strict=false) || empty($_GET)){ ?>  <!-- Checking to see whether the owner was passed in GET. If it
+                                                                                                                            was, displays checkbox as checked. 
+                                                                                                                            
+                                                                                                                            Will also check to see if $_GET is empty and will use checked version 
+                                                                                                                            for that as well. This is intended to have all libraries selected on 
+                                                                                                                            initial page load as n$_GET should be empty without a query string.
+                                                                                                                            However, I am a little concerned this may be dirty. Testing is required.
+                                                                                                                        -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="owner[]" value="<?php echo $owner['fullName']?>"  id="<?php echo $owner['fullName']?>" checked>
+                                    <label class="form-check-label" for="<?php echo $owner['fullName']?>">
+                                        <?php echo $owner['fullName']; ?>
+                                    </label>
+                                </div>
+                            <?php }
+                            else{ ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="owner[]" value="<?php echo $owner['fullName']?>"  id="<?php echo $owner['fullName']?>">
+                                    <label class="form-check-label" for="<?php echo $owner['fullName']?>">
+                                        <?php echo $owner['fullName']; ?>
+                                    </label>
+                                </div>
+                        
+                            <?php } ?>
+                        
+                        <?php endforeach;?>
+
+                    </div>
+
+
+
+
+
+
+
 
                     <!--END RIGHT SIDE-->
 

@@ -9,6 +9,9 @@ $search_WithWildcards='%'.$search.'%';
 $redundant= $_GET["redundant"] ?? '';
 
 $timeMode = $_GET["timeMode"] ?? '';
+
+$ownerPassed = $_GET["owner"] ?? [];
+
 $libraryPassed = $_GET["library"] ?? [];
 
 $positionalTotal = 0;
@@ -24,10 +27,15 @@ $positionalCounter = 1;                                                 /*  Usin
 
 //BASE STRING FOR QUERY
 
-$queryStr = 'SELECT * FROM boardGames WHERE 1=1 ';                      /* 'WHERE 1=1' is included to allow the WHERE clause to be present first in the query
-                                                                            as there is no way to know which if any of the later filtering options the user
-                                                                            use.
-                                                                        */
+                                                            /* 'WHERE 1=1' is included to allow the WHERE clause to be present first in the query
+                                                                as there is no way to know which if any of the later filtering options the user
+                                                                use.
+                                                            */
+     $queryStr =   'SELECT bg.*, u.fullName,l.library';
+     $queryStr .=  ' FROM boardGamesUpdated AS bg';
+     $queryStr .=  ' INNER JOIN users AS u ON (bg.ownerUserID = u.ID)';
+     $queryStr .=  ' INNER JOIN libraries AS l ON (bg.ownerUserID = l.userId)';
+     $queryStr .=  ' WHERE 1=1 ';
 
 
 //PLAYERS SEARCH
@@ -36,7 +44,7 @@ if($numPlayers)
 {
     //$queryStr.='AND :numPlayers1 >= minimumPlayers AND :numPlayers2 <= maximumPlayers ';
 
-    $queryStr.='AND ? >= minimumPlayers AND ? <= maximumPlayers ';
+    $queryStr.='AND ? >= bg.minimumPlayers AND ? <= bg.maximumPlayers ';
 
     $positionalTotal += 2;
 }
@@ -48,14 +56,14 @@ if($time){
         
         //$queryStr.='AND :time1 >= minimumTime AND :time2 <= maximumTime ';
         
-        $queryStr.='AND ? >= minimumTime AND ? <= maximumTime ';
+        $queryStr.='AND ? >= bg.minimumTime AND ? <= bg.maximumTime ';
         
         $positionalTotal += 2;
     }
     else{
         //$queryStr.='AND :time1 >= maximumTime ';
         
-        $queryStr.='AND ? >= maximumTime ';
+        $queryStr.='AND ? >= bg.maximumTime ';
 
         $positionalTotal++;
     
@@ -65,7 +73,7 @@ if($time){
 //REUDNDANT SEARCH
 
 if(!$redundant){
-    $queryStr.="AND isRedundant = 'N' ";
+    $queryStr.="AND bg.isRedundant = 'N' ";
 }
 
 //NAME SEARCH
@@ -76,6 +84,28 @@ if($search){
     $positionalTotal++;
 }
 
+
+//OWNER SEARCH
+
+$ownerSearchStr = '';
+$count = 0;
+$placeholders = '';
+
+                                                                             /*  Count is the length of $ownerPassed, $placeholders is an string of question marks
+                                                                                delimited by commas. One question mark for each item in $ownerPassed. 
+                                                                            */
+
+if(!empty($ownerPassed)){
+    
+    $count = count($ownerPassed);
+    $placeholders = implode(',', array_fill(0, $count, '?'));
+
+
+    $queryStr.="AND u.fullName IN ($placeholders) ";
+
+    $positionalTotal += $count;
+
+}
 
 //LIBRARY SEARCH
 
@@ -96,7 +126,7 @@ if(!empty($libraryPassed)){
     $placeholders = implode(',', array_fill(0, $count, '?'));
 
 
-    $queryStr.="AND library IN ($placeholders) ";
+    $queryStr.="AND l.library IN ($placeholders) ";
 
     $positionalTotal += $count;
 }
@@ -105,7 +135,7 @@ if(!empty($libraryPassed)){
 
 //APPEND ORDERING
 
-$queryStr .= 'ORDER BY name';
+$queryStr .= 'ORDER BY bg.name';
 
 
 
@@ -148,12 +178,23 @@ if($search){
     $positionalCounter++;
 }
 
+if(!empty($ownerPassed)){
+
+    for($i=0; $i < count($ownerPassed) ; $i++){
+        $statement->bindValue($positionalCounter,$ownerPassed[$i]);
+        $positionalCounter++;
+    }
+    
+}
+
 if(!empty($libraryPassed)){
     for($i=0; $positionalCounter<=$positionalTotal ; $i++){
         $statement->bindValue($positionalCounter,$libraryPassed[$i]);
         $positionalCounter++;
     }
 }
+
+// echo $queryStr;
 
 $statement->execute();
 
@@ -164,8 +205,19 @@ $boardgames = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 
+//QUERY FOR POPULATING OWNERS
+$statement = $pdo->prepare('SELECT distinct fullName FROM users WHERE accountStatus=1 AND accountType=1 ORDER BY fullName');
+$statement->execute();
+
+
+//FETCH ARRAY OF OWNERS GATHERED BY QUERY
+
+$owners = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 //QUERY FOR POPULATING LIBRARIES
-$statement = $pdo->prepare('SELECT distinct Library FROM boardGames ORDER BY Library');
+$statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
 $statement->execute();
 
 

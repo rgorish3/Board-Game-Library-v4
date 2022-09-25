@@ -19,7 +19,7 @@ if(isset($_POST['submit']))
     
     if($response['status'] == 'success')
     {
-        $_SESSION = array('id' => $response['id'],'user' => $response['fullName']);
+        $_SESSION = array('id' => $response['id'],'user' => $response['fullName'],  'type' => $response['type']);
         header('Location: index.php');
         //$errorMessage = $responsep['id']
     }
