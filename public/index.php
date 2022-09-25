@@ -42,6 +42,11 @@ require_once('../search.php');
 
         <!--DISPLAY TABLE FOR DISPLAYING THE BOARD GAMES-->
 
+
+        <?php 
+            //echo var_export($_SESSION); 
+        ?>
+
         <table class="table">
             <thead>
                 <tr>
@@ -53,7 +58,7 @@ require_once('../search.php');
                     <th scope="col">Max Players</th>
                     <th scope="col">Min Time</th>
                     <th scope="col">Max Time</th>
-                    <th scope="col">Library</th>
+                    <th scope="col">Owner</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -72,7 +77,7 @@ require_once('../search.php');
                         <td><?php echo $boardgame['maximumPlayers']; ?></td>
                         <td><?php echo $boardgame['minimumTime']; ?></td>
                         <td><?php echo $boardgame['maximumTime']; ?></td>
-                        <td><?php echo $boardgame['library']; ?></td>
+                        <td><?php echo $boardgame['fullName']; ?></td>
                     
 
                         <!--DEFINE THE ACTION BUTTONS-->
@@ -80,22 +85,33 @@ require_once('../search.php');
                         <td>
                             
                             <a href="view.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-info mb-2">View</a>
-                            <a href="update.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-warning mb-2">Edit</a>
-                        
-                            <!--Deletions should done through Post, not Get, so  using a 
-                                form instead of an anchor tag to pass hidden information
-                                to be used in a post request-->
-                            
+                           
+                            <?php if(isset($_SESSION['user'])){
+                                    if(($_SESSION['user'] === $boardgame['fullName']) or ($_SESSION['type'] == 2 ))
 
-                            <?php $nameWithoutQuotes = str_replace(array('"',"'"), "",$boardgame['name']);      //removing quotes and single quotes so as to not close quotes in
-                                                                                                                //  confirm_delete in delete button below.
-                            
-                            ?>            
+                                    {
+                                    
+                                    
+                                    ?>
+                                
+                                    <a href="update.php?id=<?php echo $boardgame['id'] ?>" type="button" class="btn btn-sm btn-warning mb-2">Edit</a>
+                                    
+                                     <!--Deletions should done through Post, not Get, so  using a 
+                                         form instead of an anchor tag to pass hidden information
+                                         to be used in a post request-->
+                                    
+                                    
+                                     <?php $nameWithoutQuotes = str_replace(array('"',"'"), "",$boardgame['name']);      //removing quotes and single quotes so as to not close quotes in
+                                                                                                                         //  confirm_delete in delete button below.
+                                    
+                                     ?>            
 
-                            <form style="display: inline-block" method="post" action="delete.php">
-                                <input type="hidden" name="id" value="<?php echo $boardgame['id'] ?>">
-                                <button type="submit" class="btn btn-sm btn-danger mb-2" onclick="return confirm_delete('<?php echo $nameWithoutQuotes ?>')">Delete</button>
-                            </form>
+                                     <form style="display: inline-block" method="post" action="delete.php">
+                                         <input type="hidden" name="id" value="<?php echo $boardgame['id'] ?>">
+                                         <button type="submit" class="btn btn-sm btn-danger mb-2" onclick="return confirm_delete('<?php echo $nameWithoutQuotes ?>')">Delete</button>
+                                     </form>
+                            <?php   }
+                            } ?>
                         </td>
                         
                     </tr>
