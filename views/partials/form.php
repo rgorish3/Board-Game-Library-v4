@@ -1,4 +1,6 @@
-<?php if(!empty($errors)){ ?>
+<?php 
+
+    if(!empty($errors)){ ?>
         <div class="alert alert-danger">
 
             <?php foreach($errors as $error): ?>
@@ -117,27 +119,25 @@
         <!--OWNER, LIBRARY, LOCATION-->
 
         <div class="row">
-            
+           
             <div class= "col-md-4 col-sm-4">
                 <div class="mb-3">
+                    <label >Location</label>
+                    <input type="text dropdown" class="form-control" name="location" value="<?php echo $location; ?>">
+                </div>
+            </div>     
+            
+            <?php if($_SESSION['type']==2){ ?>
+            <div class="mb-3">
+                    <div class= "col-md-4 col-sm-4">
                     <label >Owner</label>
                     <input type="text" class="form-control" name="owner" value="<?php echo $owner; ?>">
                 </div>
             </div>
             
-            <div class= "col-md-4 col-sm-4">
-                <div class="mb-3">
-                    <label >Library</label>
-                    <input type="text" class="form-control" name="library" value="<?php echo $library; ?>">
-                </div>
-            </div>   
+                
+            <?php } ?>
             
-            <div class= "col-md-4 col-sm-4">
-                <div class="mb-3">
-                    <label >Location</label>
-                    <input type="text" class="form-control" name="location" value="<?php echo $location; ?>">
-                </div>
-            </div>     
         </div> 
         
         <!--END OWNER, LIBRARY, LOCATION-->

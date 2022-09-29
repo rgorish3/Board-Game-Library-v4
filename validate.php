@@ -9,13 +9,30 @@ $maxPlayers = $_POST['maxPlayers'];
 $minTime = $_POST['minTime'];
 $maxTime = $_POST['maxTime'];
 $location = $_POST['location'];
-$owner = $_POST['owner'];
+$owner = '';
 $description = $_POST['description'];
 $redundant = $_POST['redundant'] ?? '';
-$library = $_POST['library'];
 $played = $_POST['played'] ?? '';
 $objectid = $_POST['objectid'] ?? null;
 $image_path =  '';
+
+
+if($_SESSION['type']==1)
+{
+    $owner = $SESSION['id'];
+
+}
+
+elseif($_SESSION['type']==2)
+{
+    if(isset($_POST['owner'])){
+        
+        //Don't allow new users through here. Turn to dropdown on form.
+        
+    }
+    
+
+}
 
 
 
