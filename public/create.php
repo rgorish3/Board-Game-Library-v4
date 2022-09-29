@@ -89,10 +89,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         if(empty($errors)){
 
-            $statement = $pdo->prepare("INSERT INTO boardGames (name, baseOrExpansion, minimumPlayers, maximumPlayers, 
+            $statement = $pdo->prepare("INSERT INTO boardGamesUpdated (name, baseOrExpansion, minimumPlayers, maximumPlayers, 
                 minimumTime, maximumTime, location, owner, description, isRedundant, library, hasPlayed, imageURL, createDate, bggObjectID)
                 VALUES(:name, :baseOrExp, :minPlayers, :maxPlayers, :minTime, :maxTime, :location, :owner, :description,
-                :redundant, :library, :played, :imageURL, :date, :objectid)");
+                :redundant, :played, :imageURL, :date, :objectid)");
 
             $statement -> bindValue(':name',$name);
             $statement -> bindValue(':baseOrExp',$baseOrExp);
@@ -104,7 +104,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $statement -> bindValue(':owner',$owner);
             $statement -> bindValue(':description',$description);
             $statement -> bindValue(':redundant',$redundant);
-            $statement -> bindValue(':library',$library);
             $statement -> bindValue(':played',$played);
             $statement -> bindValue('imageURL',$imagePath);
             $statement -> bindValue(':date',date('Y-m-d H:i:s'));
