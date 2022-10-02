@@ -1,5 +1,16 @@
 <?php 
 
+
+    $owners = [];
+
+    if($_SESSION["type"]==2){
+
+        $statement = $pdo->prepare('SELECT distinct id, fullName, email FROM users WHERE accountStatus=1 AND accountType=1 ORDER BY fullName');
+        $statement->execute();    
+        $owners = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
     if(!empty($errors)){ ?>
         <div class="alert alert-danger">
 
@@ -8,6 +19,7 @@
             <?php endforeach; ?>
         </div>
     <?php } ?>
+   
     
 
     <form action="" method="post" enctype="multipart/form-data">
@@ -116,10 +128,40 @@
 
         <!--END TIME-->
         
-        <!--OWNER, LIBRARY, LOCATION-->
+        <!--OWNER, LOCATION-->
+        <div class="row"> 
+            <?php if($_SESSION['type']==2){ ?>
 
-        <div class="row">
-           
+                <div class="mb-3">
+                    <div class="col-md-3 col-sm-3">
+                        <label for="test">test</label>
+                        <input type="text dropdown" class="form-control" name="location" value="<?php echo $location; ?>">
+                    </div>
+                </div>
+                <div class="mb-3">
+                        <div class= "col-md-4 col-sm-4">
+                            <label for="owners_select">Owner</label>
+                            <select class="form-select" id="owners_select" name="owners_select">
+
+                                <option>(Select an owner)</option>
+
+                                <?php 
+                                    foreach($owners as $i => $owner):
+
+                                        echo "<option value=".$owner["id"].">".$owner["fullName"]." (".$owner["email"].")</option>";
+
+                                    endforeach
+                                ?>
+
+                                
+                        </select>
+                    </div>
+                </div>
+            
+
+            <?php } ?>
+
+            
             <div class= "col-md-4 col-sm-4">
                 <div class="mb-3">
                     <label >Location</label>
@@ -127,16 +169,6 @@
                 </div>
             </div>     
             
-            <?php if($_SESSION['type']==2){ ?>
-            <div class="mb-3">
-                    <div class= "col-md-4 col-sm-4">
-                    <label >Owner</label>
-                    <input type="text" class="form-control" name="owner" value="<?php echo $owner; ?>">
-                </div>
-            </div>
-            
-                
-            <?php } ?>
             
         </div> 
         
