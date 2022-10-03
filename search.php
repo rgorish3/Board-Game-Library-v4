@@ -31,10 +31,10 @@ $positionalCounter = 1;                                                 /*  Usin
                                                                 as there is no way to know which if any of the later filtering options the user
                                                                 use.
                                                             */
-     $queryStr =   'SELECT bg.*, u.fullName,l.library';
+     $queryStr =   'SELECT bg.*, u.fullName,uil.libraryId';
      $queryStr .=  ' FROM boardGamesUpdated AS bg';
      $queryStr .=  ' INNER JOIN users AS u ON (bg.ownerUserID = u.ID)';
-     $queryStr .=  ' INNER JOIN libraries AS l ON (bg.ownerUserID = l.userId)';
+     $queryStr .=  ' INNER JOIN usersInLibraries AS uil ON (bg.ownerUserID = uil.userId)';
      $queryStr .=  ' WHERE 1=1 ';
 
 
@@ -117,19 +117,19 @@ $placeholders='';
                                                                             */
 
 
-if(!empty($libraryPassed)){
+// if(!empty($libraryPassed)){
     
 
-    //$librarySearchStr = implode(',', $libraryPassed);
+//     //$librarySearchStr = implode(',', $libraryPassed);
 
-    $count = count($libraryPassed);
-    $placeholders = implode(',', array_fill(0, $count, '?'));
+//     $count = count($libraryPassed);
+//     $placeholders = implode(',', array_fill(0, $count, '?'));
 
 
-    $queryStr.="AND l.library IN ($placeholders) ";
+//     $queryStr.="AND l.library IN ($placeholders) ";
 
-    $positionalTotal += $count;
-}
+//     $positionalTotal += $count;
+// }
 
 
 
@@ -187,12 +187,12 @@ if(!empty($ownerPassed)){
     
 }
 
-if(!empty($libraryPassed)){
-    for($i=0; $positionalCounter<=$positionalTotal ; $i++){
-        $statement->bindValue($positionalCounter,$libraryPassed[$i]);
-        $positionalCounter++;
-    }
-}
+// if(!empty($libraryPassed)){
+//     for($i=0; $positionalCounter<=$positionalTotal ; $i++){
+//         $statement->bindValue($positionalCounter,$libraryPassed[$i]);
+//         $positionalCounter++;
+//     }
+// }
 
 // echo $queryStr;
 
@@ -217,8 +217,8 @@ $owners = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 //QUERY FOR POPULATING LIBRARIES
-$statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
-$statement->execute();
+// $statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
+// $statement->execute();
 
 
 //FETCH ARRAY OF LIBRARIES GATHERED BY QUERY
