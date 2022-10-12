@@ -140,6 +140,7 @@ if ($name) {
 <?php include_once("../views/partials/header.php") ?>
 
 <body>
+    <?php include_once("../views/partials/login_bar.php");?>
     <div class="main">
           <p>
             <a href="create.php" class="btn btn-secondary">Go Back to Add Game</a>

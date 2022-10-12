@@ -138,7 +138,6 @@ $placeholders='';
 $queryStr .= 'ORDER BY bg.name';
 
 
-
 //QUERY FOR POPULATING TABLE
 $statement = $pdo->prepare($queryStr);
 
@@ -182,7 +181,9 @@ if(!empty($ownerPassed)){
 
     for($i=0; $i < count($ownerPassed) ; $i++){
         $statement->bindValue($positionalCounter,$ownerPassed[$i]);
+
         $positionalCounter++;
+        
     }
     
 }
@@ -206,7 +207,8 @@ $boardgames = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 //QUERY FOR POPULATING OWNERS
-$statement = $pdo->prepare('SELECT distinct fullName FROM users WHERE accountStatus=1 AND accountType=1 ORDER BY fullName');
+
+$statement = $pdo->prepare('SELECT distinct id, fullName FROM users WHERE accountStatus=1 AND accountType=1 ORDER BY fullName');
 $statement->execute();
 
 

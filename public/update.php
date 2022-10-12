@@ -108,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php include_once "../views/partials/header.php" ?>
 <body>
+    <?php include_once("../views/partials/login_bar.php");?>
     <div class="main">
         <p>
             <a href="index.php" class="btn btn-secondary">Go Back to Board Game Library</a>

@@ -22,4 +22,6 @@ if(!isset($_SESSION['user']))
 
 
 <?php include_once "../views/partials/header.php"?>
-
+<body>
+    <?php include_once("../views/partials/login_bar.php");?>
+</body>

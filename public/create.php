@@ -90,7 +90,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(empty($errors)){
 
             $statement = $pdo->prepare("INSERT INTO boardGamesUpdated (name, baseOrExpansion, minimumPlayers, maximumPlayers, 
-                minimumTime, maximumTime, location, owner, description, isRedundant, library, hasPlayed, imageURL, createDate, bggObjectID)
+                minimumTime, maximumTime, location, ownerUserID, description, isRedundant, hasPlayed, imageURL, createDate, bggObjectID)
                 VALUES(:name, :baseOrExp, :minPlayers, :maxPlayers, :minTime, :maxTime, :location, :owner, :description,
                 :redundant, :played, :imageURL, :date, :objectid)");
 
@@ -121,6 +121,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <?php include_once "../views/partials/header.php"?>
 <body>
+    <?php include_once("../views/partials/login_bar.php");?>
     <div class="main">
         <p>
             <a href="index.php" class="btn btn-secondary">Go Back to Board Game Library</a>
