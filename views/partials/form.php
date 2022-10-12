@@ -132,18 +132,18 @@
         <div class="row"> 
             <?php if($_SESSION['type']==2){ ?>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <div class="col-md-3 col-sm-3">
                         <label for="test">test</label>
                         <input type="text dropdown" class="form-control" name="location" value="<?php echo $location; ?>">
                     </div>
-                </div>
+                </div> -->
                 <div class="mb-3">
                         <div class= "col-md-4 col-sm-4">
                             <label for="owners_select">Owner</label>
                             <select class="form-select" id="owners_select" name="owners_select">
 
-                                <option>(Select an owner)</option>
+                                <option value="-1">(Select an owner)</option>
 
                                 <?php 
                                     foreach($owners as $i => $owner):

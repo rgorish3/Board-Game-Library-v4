@@ -17,22 +17,28 @@ $objectid = $_POST['objectid'] ?? null;
 $image_path =  '';
 
 
+
+/*  SET OWNER   */
+
 if($_SESSION['type']==1)
 {
-    $owner = $SESSION['id'];
-
+    $owner = $_SESSION['id'];
+    echo $_SESSION['id'];
 }
 
 elseif($_SESSION['type']==2)
 {
-    if(isset($_POST['owner'])){
-        
-        //Don't allow new users through here. Turn to dropdown on form.
-        
+    if(isset($_POST['owners_select'])){
+        if($_POST['owners_select'] > 0){
+            $owner = $_POST['owners_select'];
+        }
+       
     }
     
 
 }
+
+
 
 
 
@@ -65,9 +71,10 @@ if(!$owner){
     $errors[] = 'Owner is required';
 }
 
-if(!$library){
-    $errors[] = 'Library is required';
-}
+//                              Library is no longer used as a setable field. it is tied directly to user
+// if(!$library){                           
+//     $errors[] = 'Library is required';
+// }
 
 if($maxTime < $minTime){
     $errors[] = 'Minimum Time must be less than or equal to Maximum Time';
