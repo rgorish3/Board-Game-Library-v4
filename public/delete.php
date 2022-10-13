@@ -17,7 +17,17 @@
         exit;
     }
 
-    $statement = $pdo->prepare('DELETE FROM boardGames WHERE id = :id');
+    $statement =$pdo->prepare('SELECT OwnerUserID FROM boardGamesUpdated WHERE id=:id');
+    $statement->bindValue(':id',$id);
+    $boardgame = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if($boardgame['ownerUserID'] != $_SESSION['id'] AND $_SESSION['type'] == '1')
+    {
+        header('Location: index.php');
+    }
+
+
+    $statement = $pdo->prepare('DELETE FROM boardGamesUpdated WHERE id = :id');
     $statement->bindValue(':id',$id);
     $statement->execute();
 

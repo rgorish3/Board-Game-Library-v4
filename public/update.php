@@ -5,7 +5,10 @@
     if(!isset($_SESSION['user']))
     { 
         header('Location: index.php');
+
     }   
+
+    //REDIRECT NON-OWNER AWAY FROM PAGE
 
     require_once("../database.php");
     require_once("../functions.php");
@@ -19,13 +22,24 @@
     }
 
 
-    $statement = $pdo->prepare("SELECT * FROM boardGames WHERE id = :id");
+    $statement = $pdo->prepare("SELECT * FROM boardGamesUpdated WHERE id = :id");
     $statement -> bindValue(':id',$id);
     $statement -> execute();
     $boardgame = $statement->fetch(PDO::FETCH_ASSOC);
 
    
     $errors = [];
+
+    $owner = $boardgame['ownerUserID'];
+
+    if($owner != $_SESSION['id'] && $_SESSION['type']==1)
+    {
+        header('location: index.php');
+
+        // echo $owner;
+        // var_export($_SESSION);
+
+    }
 
 
 
@@ -36,10 +50,8 @@
     $minTime = $boardgame['minimumTime'];
     $maxTime = $boardgame['maximumTime'];
     $location = $boardgame['location'];
-    $owner = $boardgame['owner'];
     $description = $boardgame['description'];
     $redundant = $boardgame['isRedundant'];
-    $library = $boardgame['library'];
     $played = $boardgame['hasPlayed'];
     $baseOrExp_base='';
     $baseOrExp_exp='';
@@ -92,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':owner', $owner);
         $statement->bindValue(':description',$description);
         $statement->bindValue(':redundant', $redundant);
-        $statement->bindValue(':library', $library);
         $statement->bindValue(':played',$played);
         $statement->bindValue(':imageURL',$imagePath);
 
