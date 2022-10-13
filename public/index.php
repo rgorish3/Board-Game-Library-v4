@@ -13,6 +13,7 @@ require_once('../search.php');
 <body>
     <?php include_once("../views/partials/login_bar.php");?>
 
+
     <div class="main">
         <h1>Board Game Library</h1> 
 

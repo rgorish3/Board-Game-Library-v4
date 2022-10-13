@@ -146,9 +146,15 @@
                                 <option value="-1">(Select an owner)</option>
 
                                 <?php 
-                                    foreach($owners as $i => $owner):
+                                    foreach($owners as $i => $indivOwner):
 
-                                        echo "<option value=".$owner["id"].">".$owner["fullName"]." (".$owner["email"].")</option>";
+                                        $str= "<option value=".$indivOwner["id"];
+                                        if($indivOwner['id']==$owner){
+                                            $str.= " selected=selected ";
+                                        }
+                                        $str.=">".$indivOwner["fullName"]." (".$indivOwner["email"].")</option>";
+                                        
+                                        echo $str;
 
                                     endforeach
                                 ?>
