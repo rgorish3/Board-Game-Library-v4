@@ -35,31 +35,35 @@ if(isset($_POST['submit']))
 <?php include_once "../views/partials/header.php"?>
 
 
+<div class="main">
 
+    <p>
+        <a href="index.php" class="btn btn-secondary">Go Back to Board Game Library</a>
+    </p>
 
-<div class="container bg-light py-3 mt-3 login-input">
+    <div class="container bg-light py-3 mt-3 login-input">
 
-    <?php
-        if (!empty($errorMessage)){?>
-            <div>
-                <span class="text-danger"><strong><?php echo $errorMessage;?></strong></span>
+        <?php
+            if (!empty($errorMessage)){?>
+                <div>
+                    <span class="text-danger"><strong><?php echo $errorMessage;?></strong></span>
+                </div>
+            <?php } ?>
+            
+
+        <form method="post">
+            <div class="form-group my-3 mx-5">
+                <input type="text" class="form-control" placeholder="Email Address" name="email">
             </div>
-        <?php } ?>
-        
+            <div class="form-group my-3 mx-5">
+                <input type="password" class="form-control" placeholder="Password" name="password">
+            </div>
 
-    <form method="post">
-        <div class="form-group my-3 mx-5">
-            <input type="text" class="form-control" placeholder="Email Address" name="email">
-        </div>
-        <div class="form-group my-3 mx-5">
-            <input type="password" class="form-control" placeholder="Password" name="password">
-        </div>
-
-    
-        <div class="form-group mb-3 mt-3 text-end ">
-            <button class="btn btn-primary" type="submit" name="submit" id="button-addon2">Log In</button>
-        </div>
-    </form>
-
+            
+            <div class="form-group mb-3 mt-3 text-end ">
+                <button class="btn btn-primary" type="submit" name="submit" id="button-addon2">Log In</button>
+            </div>
+        </form>
+    </div>
 
 </div>
