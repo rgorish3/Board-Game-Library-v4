@@ -1,8 +1,5 @@
 <?php
 
-require_once("../database.php");
-require_once("../functions.php");
-
 
 session_start();
 if(!isset($_SESSION['user']))
@@ -10,8 +7,28 @@ if(!isset($_SESSION['user']))
     header('Location: login.php');
 }
 
+require_once("../database.php");
+require_once("../functions.php");
 
 
+
+
+/*      PASSWORD        */
+
+
+
+
+if(isset($_POST['submit']))
+{
+
+    $response = resetPassword($_POST['oldPassword'],$_POST['newPassword1'],$_POST['newPassword2']);
+
+}
+
+
+
+
+/*      LIBRARIES       */
 $statement = $pdo->prepare('SELECT * FROM libraries ORDER BY library');
 $statement->execute();    
 $libraries = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -36,6 +53,7 @@ $library = $library['id']
 <body>
     <?php include_once("../views/partials/login_bar.php");?>
     <div class="main ">
+
         <p>
             <a href="index.php" class="btn btn-secondary">Go Back to Board Game Library</a>
             <div class="container-fluid ">
@@ -45,22 +63,29 @@ $library = $library['id']
                         <h2 class="text-center">Change Password</h2>
             
                             <?php
-                                if (!empty($errorMessage)){?>
+                                if (!empty($response)){?>
                                     <div>
-                                        <span class="text-danger"><strong><?php echo $errorMessage;?></strong></span>
+                                        <span class=<?php
+                                            if($response['status'] == 'error'){
+                                                echo "text-danger";
+                                            } 
+                                            else{ 
+                                                echo 'text-success';
+                                            }?>
+                                        ><strong><?php echo $response['message'];?></strong></span>
                                     </div>
                                 <?php } ?>
             
 
                             <form method="post">
                                <div class="form-group my-3 mx-5">
-                                    <input type="password" class="form-control" placeholder="Old Password" name="oldPassword">
+                                    <input type="text" class="form-control" placeholder="Old Password" name="oldPassword">
                                 </div>
                                 <div class="form-group my-3 mx-5">
-                                    <input type="password" class="form-control" placeholder="New Password" name="newPassword1">
+                                    <input type="text" class="form-control" placeholder="New Password" name="newPassword1">
                                 </div>
                                 <div class="form-group my-3 mx-5">
-                                    <input type="password" class="form-control" placeholder="Retype New Password" name="newPassword2">
+                                    <input type="text" class="form-control" placeholder="Retype New Password" name="newPassword2">
                                 </div>
                                 <div class="form-group mb-3 mt-3 text-end ">
                                     <button class="btn btn-primary" type="submit" name="submit" id="button-addon2">Change Password</button>
