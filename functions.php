@@ -97,4 +97,18 @@
         return array('status' => 'error', 'message'=> 'No User Logged In');
     }
 
+    function changeLibrary($libraryID)
+    {
+        if(isset($_SESSION['user'])){
+            require(__DIR__."/database.php");
 
+            $statement = $pdo->prepare("UPDATE usersInLibraries SET libraryId = :libraryId WHERE userId = :userId");
+            $statement -> bindValue(':libraryId', $libraryID);
+            $statement -> bindValue(':userId', $_SESSION['id']);
+            $statement -> execute();
+
+
+            return array('status' => 'success', 'message' => 'Library changed successfully.');
+        }
+           
+    }
