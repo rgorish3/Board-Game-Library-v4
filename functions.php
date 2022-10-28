@@ -102,13 +102,65 @@
         if(isset($_SESSION['user'])){
             require(__DIR__."/database.php");
 
-            $statement = $pdo->prepare("UPDATE usersInLibraries SET libraryId = :libraryId WHERE userId = :userId");
-            $statement -> bindValue(':libraryId', $libraryID);
-            $statement -> bindValue(':userId', $_SESSION['id']);
+            $statement = $pdo->prepare("SELECT libraryId FROM usersInLibraries WHERE libraryId = :libraryId");
+            $statement -> bindvalue(':libraryId',$libraryID);
+            $statement -> execute();
+        
+        
+            if($statement->rowCount())
+            {
+                echo 'This is an error';
+                return array('status' => 'error');
+            }
+            else{
+                echo 'This is not an error';
+                $statement = $pdo->prepare("UPDATE usersInLibraries SET libraryId = :libraryId WHERE userId = :userId");
+                $statement -> bindValue(':libraryId', $libraryID);
+                $statement -> bindValue(':userId', $_SESSION['id']);
+                $statement -> execute();
+
+                $statement = $pdo->prepare("SELECT library FROM libraries WHERE id=:id");
+                $statement -> bindValue('id',$libraryID);
+                $statement -> execute();
+
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+                return array('status' => 'success', 'message' => 'Library changed to '.$result['library']);
+            }
+        }
+        else{
+            return array('status' => 'error', 'message'=> 'No User Logged In');
+        }
+    }
+
+    function addLibrary($libraryName)
+    {
+        require(__DIR__."/database.php");
+
+        $statement = $pdo->prepare("SELECT library FROM libraries WHERE library = :libraryName");
+        $statement -> bindvalue(':libraryName',$libraryName);
+        $statement -> execute();
+
+        if($statement->rowCount())
+        {
+            return array('status' => 'error', 'message' => 'Library name already exists');
+        }
+        else
+        {
+            $statement = $pdo->prepare("INSERT INTO libraries (library) VALUES(:libraryName)");
+            $statement -> bindvalue(':libraryName',$libraryName);
             $statement -> execute();
 
+            $statement = $pdo->prepare("SELECT id FROM libraries WHERE library = :libraryName");
+            $statement -> bindvalue(':libraryName',$libraryName);
+            $statement -> execute();
 
-            return array('status' => 'success', 'message' => 'Library changed successfully.');
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            return array('status' => 'success', 'libraryId' => $result['id']);
         }
-           
+
+
+        
     }

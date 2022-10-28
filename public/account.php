@@ -35,6 +35,23 @@ if(isset($_POST['submit']))
 
 
 
+/*     add          */
+
+
+if(isset($_POST['submit-new-library']))
+{
+    $nlibResponse = addLibrary($_POST['new-library']);
+    if($nibResponse['status']= 'success')
+    {
+        $libResponse = changeLibrary($nlibResponse['libraryId']);
+        $library = $nlibResponse['libraryId'];
+    }
+}
+
+
+
+/*  build select */
+
 $statement = $pdo->prepare('SELECT * FROM libraries ORDER BY library');
 $statement->execute();    
 $libraries = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +65,13 @@ $statement -> bindValue(':id',$_SESSION['id']);
 $statement->execute();
 $library = $statement->fetch(PDO::FETCH_ASSOC);
 
-$library = $library['id'];
+if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
+    $library = $library['id'];
+}
+
+
+/*     change          */
+
 
 if(isset($_POST['submit-library']))
 {
@@ -59,7 +82,7 @@ if(isset($_POST['submit-library']))
     
 }
 
-
+echo 1;
 
 ?>
 
@@ -145,8 +168,17 @@ if(isset($_POST['submit-library']))
                                 ?>
                             </select>
                             
+                            <div class="form-group mb-5 mt-3 text-end ">
+                                <button class="btn btn-primary" type="submit" name="submit-library" id="submit-library">Change Library</button>
+                            </div>
+                        </form>
+
+                        <form method="post">
+                            <div class="form-group my-3 mx-5">
+                                <input type="text" class="form-control" placeholder="Add New Library" name="new-library">
+                            </div>
                             <div class="form-group mb-3 mt-3 text-end ">
-                                <button class="btn btn-primary" type="submit" name="submit-library" id="button-addon2">Change Library</button>
+                                <button class="btn btn-primary" type="submit" name="submit-new-library" id="submit-new-library">Add Library</button>
                             </div>
                         </form>
                     </div>
