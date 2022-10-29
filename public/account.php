@@ -12,7 +12,6 @@ require_once("../functions.php");
 
 
 
-
 /*      PASSWORD        */
 
 
@@ -40,6 +39,7 @@ if(isset($_POST['submit']))
 
 if(isset($_POST['submit-new-library']))
 {
+
     $nlibResponse = addLibrary($_POST['new-library']);
     if($nibResponse['status']= 'success')
     {
@@ -56,16 +56,19 @@ $statement = $pdo->prepare('SELECT * FROM libraries ORDER BY library');
 $statement->execute();    
 $libraries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-$statement = $pdo->prepare('SELECT l.id, l.library
+
+if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
+    $statement = $pdo->prepare('SELECT l.id, l.library
     FROM usersInLibraries AS uil 
     INNER JOIN libraries AS l ON (uil.libraryId=l.id)
     WHERE (userID=:id)
-    ORDER BY l.library');
-$statement -> bindValue(':id',$_SESSION['id']);
-$statement->execute();
-$library = $statement->fetch(PDO::FETCH_ASSOC);
+    ORDER BY l.library');   
+    $statement -> bindValue(':id',$_SESSION['id']);
+    $statement->execute();
 
-if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
+    $library = $statement->fetch(PDO::FETCH_ASSOC);
+
+
     $library = $library['id'];
 }
 
@@ -81,8 +84,6 @@ if(isset($_POST['submit-library']))
     }
     
 }
-
-echo 1;
 
 ?>
 
