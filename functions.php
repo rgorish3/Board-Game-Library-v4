@@ -102,18 +102,6 @@
         if(isset($_SESSION['user'])){
             require(__DIR__."/database.php");
 
-            $statement = $pdo->prepare("SELECT libraryId FROM usersInLibraries WHERE libraryId = :libraryId");
-            $statement -> bindvalue(':libraryId',$libraryID);
-            $statement -> execute();
-        
-        
-            if($statement->rowCount())
-            {
-                echo 'This is an error';
-                return array('status' => 'error');
-            }
-            else{
-                echo 'This is not an error';
                 $statement = $pdo->prepare("UPDATE usersInLibraries SET libraryId = :libraryId WHERE userId = :userId");
                 $statement -> bindValue(':libraryId', $libraryID);
                 $statement -> bindValue(':userId', $_SESSION['id']);
@@ -127,13 +115,13 @@
 
 
                 return array('status' => 'success', 'message' => 'Library changed to '.$result['library']);
-            }
         }
         else{
             return array('status' => 'error', 'message'=> 'No User Logged In');
         }
     }
 
+    
     function addLibrary($libraryName)
     {
         require(__DIR__."/database.php");
