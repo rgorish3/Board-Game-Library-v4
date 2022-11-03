@@ -35,6 +35,7 @@ $positionalCounter = 1;                                                 /*  Usin
      $queryStr .=  ' FROM boardGamesUpdated AS bg';
      $queryStr .=  ' INNER JOIN users AS u ON (bg.ownerUserID = u.ID)';
      $queryStr .=  ' INNER JOIN usersInLibraries AS uil ON (bg.ownerUserID = uil.userId)';
+     $queryStr .=  ' INNER JOIN libraries AS l ON (l.id = uil.libraryId)';
      $queryStr .=  ' WHERE 1=1 ';
 
 
@@ -48,6 +49,7 @@ if($numPlayers)
 
     $positionalTotal += 2;
 }
+
 
 
 //TIME SEARCH
@@ -70,11 +72,15 @@ if($time){
     }
 }
 
+
+
 //REUDNDANT SEARCH
 
 if(!$redundant){
     $queryStr.="AND bg.isRedundant = 'N' ";
 }
+
+
 
 //NAME SEARCH
 
@@ -83,6 +89,8 @@ if($search){
     $queryStr.="AND name LIKE ? ";
     $positionalTotal++;
 }
+
+
 
 
 //OWNER SEARCH
@@ -107,6 +115,8 @@ if(!empty($ownerPassed)){
 
 }
 
+
+
 //LIBRARY SEARCH
 
 $librarySearchStr = '';
@@ -115,22 +125,22 @@ $placeholders='';
                                                                              /*  Count is the length of $libraryPassed, $placeholders is an string of question marks
                                                                                 delimited by commas. One question mark for each item in $libraryPassed. 
                                                                             */
+                                                                            
 
 
-// if(!empty($libraryPassed)){
+if(!empty($libraryPassed)){
     
 
-//     //$librarySearchStr = implode(',', $libraryPassed);
+    //$librarySearchStr = implode(',', $libraryPassed);
 
-//     $count = count($libraryPassed);
-//     $placeholders = implode(',', array_fill(0, $count, '?'));
+    $count = count($libraryPassed);
+    $placeholders = implode(',', array_fill(0, $count, '?'));
 
 
-//     $queryStr.="AND l.library IN ($placeholders) ";
+    $queryStr.="AND l.library IN ($placeholders) ";
 
-//     $positionalTotal += $count;
-// }
-
+    $positionalTotal += $count;
+}
 
 
 //APPEND ORDERING
@@ -188,12 +198,12 @@ if(!empty($ownerPassed)){
     
 }
 
-// if(!empty($libraryPassed)){
-//     for($i=0; $positionalCounter<=$positionalTotal ; $i++){
-//         $statement->bindValue($positionalCounter,$libraryPassed[$i]);
-//         $positionalCounter++;
-//     }
-// }
+if(!empty($libraryPassed)){
+    for($i=0; $positionalCounter<=$positionalTotal ; $i++){
+        $statement->bindValue($positionalCounter,$libraryPassed[$i]);
+        $positionalCounter++;
+    }
+}
 
 // echo $queryStr;
 
@@ -219,8 +229,8 @@ $owners = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 //QUERY FOR POPULATING LIBRARIES
-// $statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
-// $statement->execute();
+$statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
+$statement->execute();
 
 
 //FETCH ARRAY OF LIBRARIES GATHERED BY QUERY

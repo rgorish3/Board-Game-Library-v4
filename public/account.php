@@ -57,7 +57,7 @@ $statement->execute();
 $libraries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
-if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
+// if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
     $statement = $pdo->prepare('SELECT l.id, l.library
     FROM usersInLibraries AS uil 
     INNER JOIN libraries AS l ON (uil.libraryId=l.id)
@@ -70,7 +70,7 @@ if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
 
 
     $library = $library['id'];
-}
+// }
 
 
 /*     change          */
@@ -79,6 +79,7 @@ if(!isset($_POST['submit-library']) && !isset($_POST['submit-new-library'])){
 if(isset($_POST['submit-library']))
 {
     if($library != $_POST['libraries_select']){
+       
         $libResponse=changeLibrary($_POST['libraries_select']);
         $library = $_POST['libraries_select'];
     }
