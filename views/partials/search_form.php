@@ -102,7 +102,8 @@
                     <div class="col-md-3">
 
                         <h3>Libraries</h3>
-                        
+
+
                         <?php foreach($libraries as $i => $library) : ?>
                                
                             <?php if(in_array($library['library'], $libraryPassed, $strict=false) || empty($_GET)){ ?>  <!-- Checking to see whether the library is was passed in GET. If it
