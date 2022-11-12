@@ -218,8 +218,14 @@ $boardgames = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 //QUERY FOR POPULATING OWNERS
 
-$statement = $pdo->prepare('SELECT distinct id, fullName FROM users WHERE accountStatus=1 AND accountType=1 ORDER BY fullName');
+$statement = $pdo->prepare('SELECT DISTINCT u.id, u.fullName 
+FROM users AS u
+INNER JOIN boardGamesUpdated AS bg ON (u.id = bg.ownerUserID)
+WHERE u.accountStatus=1 
+AND u.accountType=1 
+ORDER BY u.fullName');
 $statement->execute();
+
 
 
 //FETCH ARRAY OF OWNERS GATHERED BY QUERY
@@ -229,7 +235,12 @@ $owners = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 //QUERY FOR POPULATING LIBRARIES
-$statement = $pdo->prepare('SELECT distinct library FROM libraries ORDER BY library');
+$statement = $pdo->prepare('SELECT DISTINCT library
+FROM libraries AS l 
+INNER JOIN usersInLibraries AS uil ON (l.id = uil.libraryId)
+INNER JOIN users AS u ON (uil.userId = u.id)
+INNER JOIN boardGamesUpdated AS bg ON (u.id = bg.ownerUserID)
+ORDER BY library');
 $statement->execute();
 
 
